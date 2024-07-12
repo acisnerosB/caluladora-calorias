@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="column">
+    <div class="activity-cards">
+      <mat-card *ngFor="let activity of activities"
+                (click)="selectActivity(activity.name)"
+                [class.selected]="activity.name === selectedActivity">
+        <mat-card-content>
+          <h3>{{ activity.name }}</h3>
+          <p>MET: {{ activity.met }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="column form-column">
+    <div class="form-container">
+      <form [formGroup]="calorieForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Peso (kg)</mat-label>
+          <input matInput formControlName="weight" type="number">
+          <mat-error *ngIf="controlHasError('weight', 'required')">El peso es requerido.</mat-error>
+          <mat-error *ngIf="controlHasError('weight', 'min')">El peso debe ser mayor que 0.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Duración (minutos)</mat-label>
+          <input matInput formControlName="duration" type="number">
+          <mat-error *ngIf="controlHasError('duration', 'required')">La duración es requerida.</mat-error>
+          <mat-error *ngIf="controlHasError('duration', 'min')">La duración debe ser mayor que 0.</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="calorieForm.invalid">Calcular Calorías</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="result" *ngIf="result">
+      <h3>Resultados</h3>
+      <mat-card>
+        <mat-card-title>Calorías quemadas</mat-card-title>
+        <mat-card-content>
+          <p>{{ result.caloriesBurned }}</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Actividad</mat-card-title>
+        <mat-card-content>
+          <p>{{ result.activity }}</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>MET</mat-card-title>
+        <mat-card-content>
+          <p>{{ result.activityMet }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
